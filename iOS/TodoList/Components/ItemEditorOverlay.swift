@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct ItemEditorOverlay: View {
+    @Binding var item: TodoItem?
     @State var title: String = "Lorem Ipsum Dolar Amit"
     @State var desc: String = ""
     @State var selectedStatus: ItemStatus = .notStarted
@@ -29,6 +30,11 @@ struct ItemEditorOverlay: View {
                         EditorContent()
                     }
             }
+            .onAppear() {
+                title = item?.title ?? ""
+                desc = item?.desc ?? ""
+                selectedStatus = item?.itemStatus ?? ItemStatus.notStarted
+            }
         }
     }
     
@@ -45,7 +51,7 @@ struct ItemEditorOverlay: View {
             Spacer()
             
             Button {
-                
+                item = nil
             } label: {
                 Text("Finish")
             }
@@ -55,5 +61,5 @@ struct ItemEditorOverlay: View {
 }
 
 #Preview {
-    HomePage()
+    HomePage(isLoggedIn: .constant(true))
 }

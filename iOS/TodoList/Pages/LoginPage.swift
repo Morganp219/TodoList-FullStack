@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct LoginPage: View {
+    @Binding var isLoggedIn: Bool
     @State var email: String = ""
     @State var password: String = ""
     var body: some View {
@@ -24,7 +25,7 @@ struct LoginPage: View {
                 TextField("Email", text: $email)
                 SecureField("Password", text: $password)
                 Button {
-                    
+                    isLoggedIn = true
                 } label: {
                     Text("Login")
                 }
@@ -37,5 +38,5 @@ struct LoginPage: View {
 }
 
 #Preview {
-    LoginPage()
+    LoginPage(isLoggedIn: .constant(false))
 }
