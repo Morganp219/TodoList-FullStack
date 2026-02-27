@@ -8,13 +8,14 @@
 import SwiftUI
 
 struct HomePage: View {
-    @State var itemEditing: TodoItem? = mockData.first
+    @State var itemEditing: TodoItem?
+    @Binding var isLoggedIn: Bool
     var body: some View {
         VStack {
             HStack {
                 Menu {
                     Button(role: .destructive) {
-                        
+                        isLoggedIn = false
                     } label: {
                         Label("Logout", systemImage: "rectangle.portrait.and.arrow.right")
                     }
@@ -28,6 +29,9 @@ struct HomePage: View {
                 Image(systemName: "plus.circle")
                     .font(.title)
                     .bold()
+                    .onTapGesture {
+                        itemEditing = TodoItem(title: "", desc: "", itemStatus: .notStarted)
+                    }
             }
             .padding()
             
@@ -50,12 +54,16 @@ struct HomePage: View {
             Spacer()
         } .overlay {
             if itemEditing != nil {
-                ItemEditorOverlay()
+                ItemEditorOverlay(item: Binding(get: {
+                    return itemEditing!
+                }, set: { item in
+                    itemEditing = item
+                }))
             }
         }
     }
 }
 
 #Preview {
-    HomePage()
+    HomePage(isLoggedIn: .constant(true))
 }
