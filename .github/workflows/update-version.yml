@@ -27,7 +27,7 @@ jobs:
           IOS_VERSION="NA"
           PBXPROJ=$(find . -name "project.pbxproj" | head -n 1)
           if [ -n "$PBXPROJ" ]; then
-            IOS_VERSION=$(grep -m 1 "MARKETING_VERSION" "$PBXPROJ" | sed 's/.*= \(.*\); /\1/') | tr -d ' '
+            IOS_VERSION=$(grep -m 1 "MARKETING_VERSION" "$PBXPROJ" | sed 's/.*= \(.*\); /\1/' | tr -d ' ') 
           fi
           
           echo "ios=$IOS_VERSION" >> $GITHUB_OUTPUT
