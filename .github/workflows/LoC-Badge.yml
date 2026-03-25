@@ -16,7 +16,6 @@ jobs:
             debug: true
             directory: ./
             badge: ./output/badge.svg
-            patterns: '*.js | *.ts | *.swift | *.css | *.tsx | *.jsx'  # Patterns in the format of a '.gitignore' file, separated by pipes.
             ignore: 'node_modules'
         - name: Deploy to action-data branch
           uses: "peaceiris/actions-gh-pages@v3"
