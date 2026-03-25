@@ -1,9 +1,9 @@
-name: Create Release
+name: Tag and Release
 
 on:
   push:
     branches:
-      - "v*"
+      - main
 
 permissions:
   contents: write
@@ -11,12 +11,20 @@ permissions:
 jobs:
   release:
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v4
-      - name: Bump Version and push tag
-        id: bump
+        with:
+          fetch-depth: 0
+
+      - name: Bump version and push tag
+        id: tag
         uses: anothrNick/github-tag-action@v1
         env:
-          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
-          tag_name: ${{steps.bump.outputs.new_tag}}
-      - uses: softprops/action-gh-release@v2
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DEFAULT_BUMP: patch
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.tag.outputs.new_tag }}
