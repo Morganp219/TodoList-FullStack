@@ -1,0 +1,32 @@
+name: Update versions in Readme
+
+# This is an Event Listener, this action will only run on Push to our main branch
+on:
+  push:
+    branches:
+      - main
+  
+jobs:
+  update-readme:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v4
+
+      - name: Read Versions
+        id: versions
+        run: |
+          NEXT_VERSION=$(jq -r '.version' web/package.json)
+          echo "next=$NEXT_VERSION" >> $GITHUB_OUTPUT
+    
+      - name: Update Readme
+        run: |
+          sed -i "s|<!--NEXT_VERSION-->.*<!--NEXT_VERSION_END-->|<!--NEXT_VERSION-->${{steps.versions.outputs.next}}<!--NEXT_VERSION_END-->|" README.md
+
+      - name: Commit Changes
+        run: |
+          git config user.name "Github Actions"
+          git config user.email "github-actions@github.com"
+          git add README.md
+          git commit -m "chore: update versions in README" || echo "No Changes"
+          git push
