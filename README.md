@@ -1,4 +1,4 @@
-# TodoList-FullStack
+# TodoList-FullStack ![Generated Lines of Code](https://morganp219.github.io/TodoList-FullStack/badge.svg)
 
 ## Project Tech Stack
 - Frontend
